@@ -1,6 +1,6 @@
 name: get_cubit
-description: A new Flutter package project.
-version: 0.0.1
+description: A package to help handle Cubit instances across the app.
+version: 0.0.2
 homepage: https://github.com/t0uh33d/get_cubit
 
 environment:
@@ -10,7 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.1.1
+  # flutter_bloc: ^8.1.1
+  bloc: ^8.1.0
 
 dev_dependencies:
   flutter_test:

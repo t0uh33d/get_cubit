@@ -1,5 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:bloc/bloc.dart';
 part 'cubit_ext.dart';
 
 class GetCubit {
@@ -54,5 +53,16 @@ class GetCubit {
   /// generate the key to link instance in the HashMap
   String _getKey(Type t, String? id) {
     return id == null ? t.toString() : t.toString() + id;
+  }
+
+  // deletes all the existing get cubit instances
+  void deleteAllInstances() {
+    List<String> keys = _mp.keys.toList();
+    for (int idx = 0; idx < keys.length; idx++) {
+      if (keys[idx].contains(runtimeType.toString())) {
+        _mp[keys[idx]]?.close();
+        _mp.remove(keys[idx]);
+      }
+    }
   }
 }
