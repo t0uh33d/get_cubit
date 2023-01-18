@@ -47,8 +47,51 @@ void main() {
     CounterCubit().deleteAllInstances();
     print(CounterCubit().getAllInstanceIds());
   });
+
+  test('instance deletion test', () {
+    GetCubit().put(CounterCubit(i: 0), id: 'id_0');
+    GetCubit().put(CounterCubit(i: 1), id: 'id_1');
+    GetCubit().put(CounterCubit(i: 2), id: 'id_2');
+    GetCubit().put(CounterCubit(i: 3), id: 'id_3');
+
+    print(CounterCubit().getAllInstanceIds());
+    GetCubit().deleteAllCubitInstances<CounterCubit>();
+    print(CounterCubit().getAllInstanceIds());
+  });
+
+  test('flusher test', () {
+    GetCubit().put(CubitA());
+    GetCubit().put(CubitB());
+    GetCubit().put(CubitC());
+    GetCubit().put(CounterCubit());
+    GetCubit().put(CounterCubit(i: 0), id: 'id_0');
+    GetCubit().put(CounterCubit(i: 1), id: 'id_1');
+    GetCubit().put(CounterCubit(i: 2), id: 'id_2');
+
+    print(GetCubit().getAllRegisteredInstanceKeys);
+    GetCubit().flush(flushExclusions: [
+      FlushExclusions(cubitType: CubitA),
+      FlushExclusions(
+          cubitType: CounterCubit,
+          id: 'id_0',
+          excludeAllRelatedInstances: false),
+    ]);
+    print(GetCubit().getAllRegisteredInstanceKeys);
+  });
 }
 
 class CounterCubit extends Cubit<int> {
   CounterCubit({int? i}) : super(i ?? 0);
+}
+
+class CubitA extends Cubit<int> {
+  CubitA() : super(0);
+}
+
+class CubitB extends Cubit<int> {
+  CubitB() : super(0);
+}
+
+class CubitC extends Cubit<int> {
+  CubitC() : super(0);
 }

@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+
 part 'cubit_ext.dart';
 
 class GetCubit {
@@ -16,10 +18,10 @@ class GetCubit {
   /// adds the instance of the cubit, if the instance already exists then returns the same
   ///
   /// Provide an id to create multiple unique instances
-  T put<T extends Cubit>(T cubit, {String? id}) {
+  T put<T extends Cubit>(T cubit, {String? id, bool avoidOverriding = false}) {
     String key = _getKey(T, id);
     if (_mp.containsKey(key)) {
-      if (id != null) {
+      if (id != null && avoidOverriding) {
         throw ("Instance of Cubit:$T with id:\"$id\" already exists, please use distinct id");
       }
       return _mp[key] as T;
@@ -55,14 +57,70 @@ class GetCubit {
     return id == null ? t.toString() : t.toString() + id;
   }
 
-  // deletes all the existing get cubit instances
-  void deleteAllInstances() {
+  // delete all the instances of a cubit
+  void deleteAllCubitInstances<T extends Cubit>() {
+    String k = T.toString();
     List<String> keys = _mp.keys.toList();
     for (int idx = 0; idx < keys.length; idx++) {
-      if (keys[idx].contains(runtimeType.toString())) {
+      if (keys[idx].contains(k)) {
         _mp[keys[idx]]?.close();
         _mp.remove(keys[idx]);
       }
     }
   }
+
+  void flush({List<FlushExclusions>? flushExclusions}) {
+    List<String> keys = _mp.keys.toList();
+    Set<String> exclusionKeys = <String>{};
+    if (flushExclusions != null) {
+      for (int idx = 0; idx < flushExclusions.length; idx++) {
+        if (flushExclusions[idx].excludeAllRelatedInstances!) {
+          exclusionKeys = {
+            ...exclusionKeys,
+            ..._relatedKeys(flushExclusions[idx].cubitType)
+          };
+        } else {
+          exclusionKeys.add(
+              _getKey(flushExclusions[idx].cubitType, flushExclusions[idx].id));
+        }
+      }
+    }
+    _flusher(keys, exclusionKeys);
+  }
+
+  void _flusher(List<String> keys, Set<String> exclusionKeys) {
+    for (int idx = 0; idx < keys.length; idx++) {
+      if (exclusionKeys.contains(keys[idx])) continue;
+      _mp[keys[idx]]?.close();
+      _mp.remove(keys[idx]);
+    }
+  }
+
+  List<String> get getAllRegisteredInstanceKeys => _mp.keys.toList();
+
+  Set<String> _relatedKeys(Type type) {
+    String key = _getKey(type, null);
+    List<String> keys = _mp.keys.toList();
+    Set<String> relKeys = <String>{};
+    for (int idx = 0; idx < keys.length; idx++) {
+      if (keys[idx].contains(key)) {
+        relKeys.add(keys[idx]);
+      }
+    }
+    return relKeys;
+  }
+}
+
+class FlushExclusions {
+  final Type cubitType;
+  final String? id;
+
+  /// if set to true, excludes all the related instances of the cubit from flushing
+  bool? excludeAllRelatedInstances;
+
+  FlushExclusions({
+    required this.cubitType,
+    this.id,
+    this.excludeAllRelatedInstances = false,
+  });
 }
