@@ -1,10 +1,28 @@
 # Get Cubit
 
-A package to help handle Cubit instances across the app.
+The GetCubit package provides a way to manage instances of the Cubit class in a Dart/Flutter application. The Cubit class is a state management pattern used in the Flutter framework, which allows for the separation of state management from the widgets that use that state. By using the GetCubit package, developers can register a singleton or multiple instances of the Cubit class using unique identifiers. This allows for easy access and manipulation of the state across the entire application.
 
-- Register a singleton instance of a cubit and access across the app
-- Register multiple instances of a cubit using unique identifiers
-- Easily handle cubit to cubit communications
+The package includes several methods for managing these instances:
+
+- `put`: This method is used to register an instance of the Cubit class. It takes in a Cubit instance and an optional id parameter, which can be used to create multiple unique instances of the same Cubit class. The method returns the registered instance of the Cubit class.
+
+- `find`: This method is used to retrieve a registered instance of the Cubit class. It takes in the Cubit class type and an optional id parameter, and returns the corresponding instance. If the instance is not found, it throws an error.
+
+- `delete`: This method is used to delete a registered instance of the Cubit class. It takes in the Cubit class type and an optional id parameter, and removes the corresponding instance from the internal map.
+
+- `deleteAllCubitInstances`: This method is used to delete all registered instances of a Cubit class. It takes in the Cubit class type, and removes all instances of that class from the internal map.
+
+- `flush`: This method is used to delete all registered instances of Cubit class, with the option to exclude certain instances from being deleted.
+
+- `getAllInstanceIds`: This method is used to list all unique identifiers linked to instances of a cubit class.
+
+It also provides functionality for cubit-to-cubit communication, and listing all the unique identifiers linked to instances of a cubit.
+
+In order to use this package, it needs to be added as a dependency in the pubspec.yaml file of the flutter project, and then imported in the dart file where it is being used. Once imported, it can be used to register and manage instances of the Cubit class throughout the application.
+
+It can be used to create a singleton instance of a cubit, which means that the same instance will be shared across the entire application, or it can be used to create multiple instances of the same cubit class, each with a unique identifier. It also provides an easy way to delete instances of the Cubit class when they are no longer needed.
+
+Overall, the GetCubit package provides a useful way to manage instances of the Cubit class in a Dart/Flutter application, making it easier to separate state management from the widgets that use that state, and allowing for easy access and manipulation of that state throughout the entire application.
 
 # Installation
 
