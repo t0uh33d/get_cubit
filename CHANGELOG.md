@@ -18,3 +18,7 @@
 ## 0.0.3
 
 - added a flusher to clear instances from memory
+
+## 0.0.3+1
+
+- updated documentation

@@ -1,6 +1,6 @@
 name: get_cubit
 description: A package to help handle Cubit instances across the app.
-version: 0.0.3
+version: 0.0.3+1
 homepage: https://github.com/t0uh33d/get_cubit
 
 environment:
