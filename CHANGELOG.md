@@ -22,3 +22,7 @@
 ## 0.0.3+1
 
 - updated documentation
+
+## 0.0.4
+
+- auto create a cubit on find if it doesn't exists

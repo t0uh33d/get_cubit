@@ -40,11 +40,16 @@ class GetCubit {
   }
 
   /// find an instance of a cubit
-  T find<T extends Cubit>({String? id}) {
+  T find<T extends Cubit>(
+      {String? id, bool autoCreate = false, T? onAutoCreate}) {
     String key = _getKey(T, id);
     if (_mp.containsKey(key)) {
       return _mp[key] as T;
     }
+    if (autoCreate && onAutoCreate != null) {
+      return put<T>(onAutoCreate, id: id);
+    }
+
     if (id == null) {
       throw ("Instance of Cubit:$T not found, please use GetCubit().put($T()) to create an instance of this cubit");
     } else {
