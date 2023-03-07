@@ -26,3 +26,8 @@
 ## 0.0.4
 
 - auto create a cubit on find if it doesn't exists
+
+## 1.0.0
+
+- added example
+- all methods are now static

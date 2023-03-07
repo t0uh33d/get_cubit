@@ -13,12 +13,13 @@ class GetCubit {
   GetCubit._internal();
 
   // HashMap to link the instances to cubit names and id
-  final Map<String, Cubit> _mp = {};
+  static final Map<String, Cubit> _mp = {};
 
   /// adds the instance of the cubit, if the instance already exists then returns the same
   ///
   /// Provide an id to create multiple unique instances
-  T put<T extends Cubit>(T cubit, {String? id, bool avoidOverriding = false}) {
+  static T put<T extends Cubit>(T cubit,
+      {String? id, bool avoidOverriding = false}) {
     String key = _getKey(T, id);
     if (_mp.containsKey(key)) {
       if (id != null && avoidOverriding) {
@@ -31,7 +32,7 @@ class GetCubit {
   }
 
   /// delete the instance of the cubit
-  void delete<T extends Cubit>({String? id}) {
+  static void delete<T extends Cubit>({String? id}) {
     String key = _getKey(T, id);
     if (_mp.containsKey(key)) {
       _mp[key]?.close();
@@ -40,7 +41,7 @@ class GetCubit {
   }
 
   /// find an instance of a cubit
-  T find<T extends Cubit>(
+  static T find<T extends Cubit>(
       {String? id, bool autoCreate = false, T? onAutoCreate}) {
     String key = _getKey(T, id);
     if (_mp.containsKey(key)) {
@@ -58,12 +59,12 @@ class GetCubit {
   }
 
   /// generate the key to link instance in the HashMap
-  String _getKey(Type t, String? id) {
+  static String _getKey(Type t, String? id) {
     return id == null ? t.toString() : t.toString() + id;
   }
 
   // delete all the instances of a cubit
-  void deleteAllCubitInstances<T extends Cubit>() {
+  static void deleteAllCubitInstances<T extends Cubit>() {
     String k = T.toString();
     List<String> keys = _mp.keys.toList();
     for (int idx = 0; idx < keys.length; idx++) {
@@ -74,7 +75,7 @@ class GetCubit {
     }
   }
 
-  void flush({List<FlushExclusions>? flushExclusions}) {
+  static void flush({List<FlushExclusions>? flushExclusions}) {
     List<String> keys = _mp.keys.toList();
     Set<String> exclusionKeys = <String>{};
     if (flushExclusions != null) {
@@ -93,7 +94,7 @@ class GetCubit {
     _flusher(keys, exclusionKeys);
   }
 
-  void _flusher(List<String> keys, Set<String> exclusionKeys) {
+  static void _flusher(List<String> keys, Set<String> exclusionKeys) {
     for (int idx = 0; idx < keys.length; idx++) {
       if (exclusionKeys.contains(keys[idx])) continue;
       _mp[keys[idx]]?.close();
@@ -101,9 +102,9 @@ class GetCubit {
     }
   }
 
-  List<String> get getAllRegisteredInstanceKeys => _mp.keys.toList();
+  static List<String> get getAllRegisteredInstanceKeys => _mp.keys.toList();
 
-  Set<String> _relatedKeys(Type type) {
+  static Set<String> _relatedKeys(Type type) {
     String key = _getKey(type, null);
     List<String> keys = _mp.keys.toList();
     Set<String> relKeys = <String>{};

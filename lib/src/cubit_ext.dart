@@ -3,12 +3,11 @@ part of 'get_cubit_impl.dart';
 extension GetCubitInstance on Cubit {
   /// delete all the instances of the cubit from [GetCubit]
   void deleteAllInstances() {
-    final GetCubit i = GetCubit();
-    List<String> keys = i._mp.keys.toList();
+    List<String> keys = GetCubit._mp.keys.toList();
     for (int idx = 0; idx < keys.length; idx++) {
       if (keys[idx].contains(runtimeType.toString())) {
-        i._mp[keys[idx]]?.close();
-        i._mp.remove(keys[idx]);
+        GetCubit._mp[keys[idx]]?.close();
+        GetCubit._mp.remove(keys[idx]);
       }
     }
   }
@@ -18,15 +17,13 @@ extension GetCubitInstance on Cubit {
     if (runtimeType.toString() != T.toString()) {
       throw ("Please specify the correct type of cubit addInstanceToGetCubit<$runtimeType>");
     }
-    final GetCubit i = GetCubit();
-    i.put<T>(this as T, id: id);
+    GetCubit.put<T>(this as T, id: id);
   }
 
   /// get all the ids with which the cubit was intialized in [GetCubit]
   List<String> getAllInstanceIds() {
     String k = runtimeType.toString();
-    final GetCubit i = GetCubit();
-    List<String> keys = i._mp.keys.toList();
+    List<String> keys = GetCubit._mp.keys.toList();
     List<String> res = [];
     for (int idx = 0; idx < keys.length; idx++) {
       if (keys[idx].contains(k)) {
