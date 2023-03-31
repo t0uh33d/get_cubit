@@ -58,6 +58,9 @@ class GetCubit {
     }
   }
 
+  static bool exists<T extends Cubit>({String? id}) =>
+      _mp.containsKey(_getKey(T, id));
+
   /// generate the key to link instance in the HashMap
   static String _getKey(Type t, String? id) {
     return id == null ? t.toString() : t.toString() + id;

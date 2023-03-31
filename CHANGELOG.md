@@ -31,3 +31,8 @@
 
 - added example
 - all methods are now static
+
+## 1.1.0
+
+- added exists method to check if a cubit instance exists
+- all methods are now static

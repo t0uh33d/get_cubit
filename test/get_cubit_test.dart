@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:get_cubit/get_cubit.dart';
@@ -41,11 +42,17 @@ void main() {
     for (int i = 0; i < 10; i++) {
       GetCubit.put(CounterCubit(i: i), id: '$i');
     }
-    print(CounterCubit().getAllInstanceIds());
+    if (kDebugMode) {
+      print(CounterCubit().getAllInstanceIds());
+    }
     GetCubit.delete<CounterCubit>(id: '5');
-    print(CounterCubit().getAllInstanceIds());
+    if (kDebugMode) {
+      print(CounterCubit().getAllInstanceIds());
+    }
     CounterCubit().deleteAllInstances();
-    print(CounterCubit().getAllInstanceIds());
+    if (kDebugMode) {
+      print(CounterCubit().getAllInstanceIds());
+    }
   });
 
   test('instance deletion test', () {
@@ -54,9 +61,21 @@ void main() {
     GetCubit.put(CounterCubit(i: 2), id: 'id_2');
     GetCubit.put(CounterCubit(i: 3), id: 'id_3');
 
-    print(CounterCubit().getAllInstanceIds());
+    if (kDebugMode) {
+      print(CounterCubit().getAllInstanceIds());
+    }
     GetCubit.deleteAllCubitInstances<CounterCubit>();
-    print(CounterCubit().getAllInstanceIds());
+    if (kDebugMode) {
+      print(CounterCubit().getAllInstanceIds());
+    }
+  });
+
+  test('check if a cubit exists', () {
+    GetCubit.put(CounterCubit(i: 0), id: 'id_0');
+    GetCubit.put(CounterCubit(i: 1), id: 'id_1');
+    if (kDebugMode) {
+      print(GetCubit.exists<CounterCubit>(id: 'id_0'));
+    }
   });
 
   test('flusher test', () {
@@ -67,8 +86,10 @@ void main() {
     GetCubit.put(CounterCubit(i: 0), id: 'id_0');
     GetCubit.put(CounterCubit(i: 1), id: 'id_1');
     GetCubit.put(CounterCubit(i: 2), id: 'id_2');
+    if (kDebugMode) {
+      print(GetCubit.getAllRegisteredInstanceKeys);
+    }
 
-    print(GetCubit.getAllRegisteredInstanceKeys);
     GetCubit.flush(flushExclusions: [
       FlushExclusions(cubitType: CubitA),
       FlushExclusions(
@@ -76,7 +97,9 @@ void main() {
           id: 'id_0',
           excludeAllRelatedInstances: false),
     ]);
-    print(GetCubit.getAllRegisteredInstanceKeys);
+    if (kDebugMode) {
+      print(GetCubit.getAllRegisteredInstanceKeys);
+    }
   });
 }
 
