@@ -1,5 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:get_cubit/src/common_widgets/flush_exclusion.dart';
 
 part 'cubit_ext.dart';
 
@@ -86,11 +86,11 @@ class GetCubit {
         if (flushExclusions[idx].excludeAllRelatedInstances!) {
           exclusionKeys = {
             ...exclusionKeys,
-            ..._relatedKeys(flushExclusions[idx].cubitType)
+            ..._relatedKeys(flushExclusions[idx].stateType)
           };
         } else {
           exclusionKeys.add(
-              _getKey(flushExclusions[idx].cubitType, flushExclusions[idx].id));
+              _getKey(flushExclusions[idx].stateType, flushExclusions[idx].id));
         }
       }
     }
@@ -118,18 +118,4 @@ class GetCubit {
     }
     return relKeys;
   }
-}
-
-class FlushExclusions {
-  final Type cubitType;
-  final String? id;
-
-  /// if set to true, excludes all the related instances of the cubit from flushing
-  bool? excludeAllRelatedInstances;
-
-  FlushExclusions({
-    required this.cubitType,
-    this.id,
-    this.excludeAllRelatedInstances = false,
-  });
 }

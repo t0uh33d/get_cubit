@@ -3,7 +3,7 @@ import 'package:example/counter_selector_cubit.dart';
 import 'package:example/counter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_cubit/get_cubit.dart';
+import 'package:get_cubit/get_state.dart';
 
 class MultiCounterCubit extends StatefulWidget {
   const MultiCounterCubit({super.key});
