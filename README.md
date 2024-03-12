@@ -140,3 +140,11 @@ print(ids); // [c1,c2,c3,c4,c5]
 ```dart
 GetCubit.flush();
 ```
+
+
+## Contributors
+
+We'd like to thank the following people for their contributions to this project.
+
+- ![username's profile pic](https://avatars.githubusercontent.com/u/49339092?v=4) - [@Chiraag10](https://github.com/Chiraag10) - Added Bloc support
+
